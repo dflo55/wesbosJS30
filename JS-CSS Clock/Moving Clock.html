@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JS + CSS Clock</title>
+</head>
+
+<body>
+
+
+    <div class="clock">
+        <div class="clock-face">
+            <div class="hand hour-hand"></div>
+            <div class="hand min-hand"></div>
+            <div class="hand second-hand"></div>
+        </div>
+    </div>
+
+
+    <style>
+        html {
+            background: #018DED url(https://unsplash.it/1500/1000?image=881&blur=5);
+            background-size: cover;
+            font-family: 'helvetica neue';
+            text-align: center;
+            font-size: 10px;
+        }
+
+        body {
+            margin: 0;
+            font-size: 2rem;
+            display: flex;
+            flex: 1;
+            min-height: 100vh;
+            align-items: center;
+        }
+
+        .clock {
+            width: 30rem;
+            height: 30rem;
+            border: 20px solid white;
+            border-radius: 50%;
+            margin: 50px auto;
+            position: relative;
+            padding: 2rem;
+            box-shadow:
+                0 0 0 4px rgba(0, 0, 0, 0.1),
+                inset 0 0 0 3px #EFEFEF,
+                inset 0 0 10px black,
+                0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .clock-face {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform: translateY(-3px);
+            /* account for the height of the clock hands */
+        }
+
+        .hand {
+            width: 50%;
+            height: 6px;
+            background: black;
+            position: absolute;
+            top: 50%;
+            transform-origin: 100%;
+            transform: rotate(90deg);
+            transition: all .05s;
+            transition-timing-function: cubic-bezier(0.05, 3.89, 0.58, 1);
+
+        }
+    </style>
+
+    <script>
+        const secondHand = document.querySelector(`.second-hand`); //we grab the seconds hand class and put it into a constant
+        const minHand = document.querySelector(`.min-hand`); //we grab the minutes hand class and put it into a constant 
+        const hourHand = document.querySelector(`.hour-hand`); //we grab the hours hand class and put it into a constant 
+
+        function setDate() {
+            const now = new Date(); //we are making an empty object by setting new Date 
+
+            const seconds = now.getSeconds(); //we are grabbing current seconds 
+            const secondsDegrees = ((seconds / 60) * 360) + 90; //we divide the seconds constant by 60 since theres 60 seconds in a minute and multiple it by 360deg because a clock is 360 deg. We also add 90deg because we want our seconds hand aligning correctly on the clock.
+            secondHand.style.transform = `rotate(${secondsDegrees}deg)`; //we alter the seconds hand by style and transforming it with our secondsDegrees constant
+            console.log(seconds);
+
+            const mins = now.getMinutes(); //we are grabbing current minutes
+            const minsDegrees = ((mins / 60) * 360) + 90; //we divide the minutes constant by 60 since theres 60 minutes in a hour and multiple it by 360deg because a clock is 360 deg. We also add 90deg because we want our minutes hand aligning correctly on the clock.
+            minHand.style.transform = `rotate(${minsDegrees}deg)`; //we alter the minutes hand by style and transforming it with our minsDegrees constant
+
+            const hours = now.getHours(); //we are grabbing curent hours 
+            const hoursDegrees = ((hours / 12) * 360) + 90; //we divide the hours constant by 12 since theres 12 hours on a clock technically and multiple it by 360deg because a clock is 360 deg. We also add 90deg because we want our hours hand aligning correctly on the clock.
+            hourHand.style.transform = `rotate(${hoursDegrees}deg)`; //we alter the hours hand by style and transforming it with our hoursDegrees constant
+        }
+
+
+        setInterval(setDate, 1000);
+
+    </script>
+</body>
+
+</html>
